@@ -1,4 +1,4 @@
-import { Signal, signal } from '@preact/signals-react'
+import { signal } from '@preact/signals-react'
 import './App.css'
 import { Content } from './views/Content';
 import { Box, Stack } from '@mui/system';
@@ -33,10 +33,10 @@ export type ConversationPart = {
 export const sidebarSignal = signal(false);
 export const areFilesUploadedSignal = signal<ProgressStatus>({ status: Status.IDLE, additionalInfo: "" });
 export const currentSessionIdSignal = signal("");
-export const conversationSignal = signal([]) as unknown as Signal<[ConversationPart]>;
+export const conversationSignal = signal<ConversationPart[]>([]);
 export const promptTextSignal = signal("");
 export const promptProcessingSignal = signal<ProgressStatus>({ status: Status.IDLE, additionalInfo: "" });
-export const chatHistoryStoreSignal = signal([] as unknown as [string]);
+export const chatHistoryStoreSignal = signal<string[]>([]);
 export const historyProcessingSignal = signal<ProgressStatus>({ status: Status.IDLE, additionalInfo: "" });
 export const darkModeSignal = signal(false);
 
