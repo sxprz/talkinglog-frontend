@@ -17,7 +17,6 @@ export default function Bar() {
 
     const onUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.currentTarget.files;
-        console.log(files);
         const filesFormdata = new FormData();
         Array.from(files ?? []).forEach(file => filesFormdata.append("logfile", file));
         

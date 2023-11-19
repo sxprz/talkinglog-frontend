@@ -3,8 +3,10 @@ import './App.css'
 import { Content } from './views/Content';
 import { Stack } from '@mui/system';
 import Bar from './components/Bar';
-import { AppBar, Grid, Toolbar } from '@mui/material';
+import { AppBar, Button, Grid, Toolbar, Typography } from '@mui/material';
 import Chatbar from './components/Chatbar';
+import { Build } from '@mui/icons-material';
+import axios from 'axios';
 
 export enum Status {
   IDLE,
@@ -37,6 +39,30 @@ export const promptProcessingSignal = signal({ status: Status.IDLE, additionalIn
 export const darkModeSignal = signal(false);
 
 function App() {
+
+  const demoUrl = `https://immortal-up-weevil.ngrok-free.app/demo`; 
+
+  const onTriggerDemo = () => {
+    areFilesUploadedSignal.value = { status: Status.RUNNING, additionalInfo: "" };
+
+    axios({
+        url: demoUrl,
+        withCredentials: false, 
+        method: `POST`,
+    }).then(res => {
+        const data = res.data;
+        if (data !== null) {
+            areFilesUploadedSignal.value = { status: Status.SUCCESS, additionalInfo: "" };
+        } else {
+            areFilesUploadedSignal.value = { status: Status.FAILURE, additionalInfo: "Demo failed: No further information" };
+        }
+        currentSessionIdSignal.value = data;
+    }, err => {
+        areFilesUploadedSignal.value = { status: Status.FAILURE, additionalInfo: err };
+    });
+
+  };
+
   return (
     <Stack spacing={5} width="100vw">
       <Bar />
@@ -44,6 +70,12 @@ function App() {
       <AppBar position="sticky" elevation={0} sx={{ backgroundColor: "transparent" }}>
         <Toolbar>
         <Grid container justifyContent="center">
+          <Button component="label" variant="outlined" onClick={onTriggerDemo}>
+            <Build />
+            <Typography sx={{ textTransform: "none" }}>
+                Use Demo Data
+            </Typography>
+          </Button>
           <Chatbar />
         </Grid>
         </Toolbar>
