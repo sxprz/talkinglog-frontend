@@ -55,7 +55,9 @@ export const Sidebar = () => {
       });
   }
 
-  onRequestHistory();
+  if (sidebarSignal.value && currentSessionIdSignal.value !== null && currentSessionIdSignal.value.length > 0) {
+    onRequestHistory();
+  }
 
   const list =
     <Box

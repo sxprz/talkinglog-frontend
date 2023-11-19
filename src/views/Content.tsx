@@ -1,5 +1,5 @@
 import { Paper, Stack, styled } from "@mui/material";
-import { conversationSignal } from "../App";
+import { ConversationSide, conversationSignal } from "../App";
 
 export const Content = () => {
 
@@ -40,9 +40,9 @@ export const Content = () => {
                 justifyContent="flex-end"
                 spacing={5}
                 width="50%">
-            {conversationSignal.value.map(item => <Item>item</Item>)}
-
+            {conversationSignal.value.map(item => {
+                return (<Item>{(item.side === ConversationSide.AI ? "AI: " : "User: ") + item.message}</Item>);
+            })}
         </Stack>
-        
     );
 }

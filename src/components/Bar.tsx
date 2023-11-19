@@ -31,7 +31,7 @@ export default function Bar() {
         }).then(res => {
             const data = res.data;
             if (data !== null) {
-                areFilesUploadedSignal.value = { status: Status.SUCCESS, additionalInfo: "" };
+                areFilesUploadedSignal.value = { status: Status.SUCCESS, additionalInfo: "Upload successful!" };
             } else {
                 areFilesUploadedSignal.value = { status: Status.FAILURE, additionalInfo: "Upload failed: No further information" };
             }

@@ -31,13 +31,13 @@ export type ConversationPart = {
 }
 
 export const sidebarSignal = signal(false);
-export const areFilesUploadedSignal = signal({ status: Status.IDLE, additionalInfo: "" });
+export const areFilesUploadedSignal = signal<ProgressStatus>({ status: Status.IDLE, additionalInfo: "" });
 export const currentSessionIdSignal = signal("");
 export const conversationSignal = signal([]) as unknown as Signal<[ConversationPart]>;
 export const promptTextSignal = signal("");
-export const promptProcessingSignal = signal({ status: Status.IDLE, additionalInfo: "" });
+export const promptProcessingSignal = signal<ProgressStatus>({ status: Status.IDLE, additionalInfo: "" });
 export const chatHistoryStoreSignal = signal([] as unknown as [string]);
-export const historyProcessingSignal = signal({ status: Status.IDLE, additionalInfo: "" });
+export const historyProcessingSignal = signal<ProgressStatus>({ status: Status.IDLE, additionalInfo: "" });
 export const darkModeSignal = signal(false);
 
 function App() {
@@ -67,23 +67,25 @@ function App() {
   };
 
   return (
-    <Stack spacing={5} width="100vw">
-      <Bar />
-      <Content />
-      <AppBar position="sticky" elevation={0} sx={{ backgroundColor: "transparent" }}>
-        <Toolbar>
-        <Grid lg-3 container justifyContent="center">
-          <Button component="label" variant="outlined" onClick={onTriggerDemo}>
-            <Build />
-            <Typography sx={{ textTransform: "none" }}>
-                Use Demo Data
-            </Typography>
-          </Button>
-          <Chatbar />
-        </Grid>
-        </Toolbar>
-      </AppBar>
-    </Stack>
+    <div>
+      <Stack spacing={5} width="100vw" sx={{ alignContent: "center" }}>
+        <Bar />
+        <Content />
+        <AppBar position="sticky" elevation={0} sx={{ backgroundColor: "transparent" }}>
+          <Toolbar>
+          <Grid lg-3 container justifyContent="center">
+            <Button component="label" variant="outlined" onClick={onTriggerDemo}>
+              <Build />
+              <Typography sx={{ textTransform: "none" }}>
+                  Use Demo Data
+              </Typography>
+            </Button>
+            <Chatbar />
+          </Grid>
+          </Toolbar>
+        </AppBar>
+      </Stack>
+    </div>
   )
 }
 
