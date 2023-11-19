@@ -38,8 +38,7 @@ export const Content = () => {
         <Stack direction="column"
                 alignItems="stretch"
                 justifyContent="flex-end"
-                spacing={5}
-                width="50%">
+                spacing={5}>
             {conversationSignal.value.map(item => {
                 return (<Item>{(item.side === ConversationSide.AI ? "AI: " : "User: ") + item.message}</Item>);
             })}
