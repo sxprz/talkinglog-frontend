@@ -8,7 +8,7 @@ import Chatbar from './components/Chatbar';
 
 export enum Status {
   IDLE,
-  UPLOADING,
+  RUNNING,
   SUCCESS,
   FAILURE
 }
@@ -18,7 +18,7 @@ export enum ConversationSide {
   USER
 }
 
-export type UploadStatus = {
+export type ProgressStatus = {
   status: Status,
   additionalInfo: string
 }
@@ -30,10 +30,10 @@ export type ConversationPart = {
 
 export const sidebarSignal = signal(false);
 export const areFilesUploadedSignal = signal({ status: Status.IDLE, additionalInfo: "" });
-
 export const currentSessionIdSignal = signal("");
 export const conversationSignal = signal([]) as unknown as Signal<[ConversationPart]>;
 export const promptTextSignal = signal("");
+export const promptProcessingSignal = signal({ status: Status.IDLE, additionalInfo: "" });
 export const darkModeSignal = signal(false);
 
 function App() {

@@ -21,7 +21,7 @@ export default function Bar() {
         const filesFormdata = new FormData();
         Array.from(files ?? []).forEach(file => filesFormdata.append("logfile", file));
         
-        areFilesUploadedSignal.value = { status: Status.UPLOADING, additionalInfo: "" };
+        areFilesUploadedSignal.value = { status: Status.RUNNING, additionalInfo: "" };
 
         axios({
             url: uploadUrl,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Input as BaseInput } from '@mui/base/Input';
 import { styled } from '@mui/system';
-import { ConversationSide, Status, conversationSignal, currentSessionIdSignal, promptTextSignal, areFilesUploadedSignal } from '../App';
+import { ConversationSide, Status, conversationSignal, currentSessionIdSignal, promptTextSignal, areFilesUploadedSignal, promptProcessingSignal } from '../App';
 import axios from 'axios';
 
 const Input = React.forwardRef(function CustomInput(
@@ -17,6 +17,8 @@ const checkUrl = baseUrl + `/check`;
 
 const onSend = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
+        promptProcessingSignal.value = { status: Status.RUNNING, additionalInfo: "" };
+
         // Listen to server for results every 5 seconds as it reduces the number of available connections from the server after sending the input
         const promptFormdata = new FormData();
         const checkFormdata = new FormData();
@@ -31,30 +33,30 @@ const onSend = (event: React.KeyboardEvent<HTMLInputElement>) => {
             method: `POST`,
             data: promptFormdata
         }).then(() => {
-            areFilesUploadedSignal.value = { status: Status.SUCCESS, additionalInfo: "" };
-        }, err => {
-            areFilesUploadedSignal.value = { status: Status.FAILURE, additionalInfo: err };
-        });
+            
+            const interval = setInterval(() => {
 
-        const interval = setInterval(() => {
-
-            axios({
-                url: checkUrl,
-                method: `POST`,
-                data: checkFormdata
-            }).then(res => {
-                const response : string = res.data;
-                if (response !== "waiting") {
-                    areFilesUploadedSignal.value = { status: Status.SUCCESS, additionalInfo: "" };
-                    conversationSignal.value.unshift({ side: ConversationSide.AI, message: response });
+                axios({
+                    url: checkUrl,
+                    method: `POST`,
+                    data: checkFormdata
+                }).then(res => {
+                    const response : string = res.data;
+                    if (response !== "waiting") {
+                        promptProcessingSignal.value = { status: Status.SUCCESS, additionalInfo: "" };
+                        conversationSignal.value.unshift({ side: ConversationSide.AI, message: response });
+                        clearInterval(interval);
+                    }
+                }, err => {
+                    promptProcessingSignal.value = { status: Status.FAILURE, additionalInfo: err };
                     clearInterval(interval);
-                }
-            }, err => {
-                areFilesUploadedSignal.value = { status: Status.FAILURE, additionalInfo: err };
-                clearInterval(interval);
-            });
+                });
+    
+            }, 5000);
 
-        }, 5000);
+        }, err => {
+            promptProcessingSignal.value = { status: Status.FAILURE, additionalInfo: err };
+        });
         
         event.preventDefault();
     }
