@@ -1,9 +1,9 @@
 import { Signal, signal } from '@preact/signals-react'
 import './App.css'
 import { Content } from './views/Content';
-import { Stack } from '@mui/system';
+import { Box, Stack } from '@mui/system';
 import Bar from './components/Bar';
-import { AppBar, Button, Grid, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, CircularProgress, Grid, Toolbar, Typography } from '@mui/material';
 import Chatbar from './components/Chatbar';
 import { Build } from '@mui/icons-material';
 import axios from 'axios';
@@ -73,7 +73,7 @@ function App() {
         <Content />
         <AppBar position="sticky" elevation={0} sx={{ backgroundColor: "transparent" }}>
           <Toolbar>
-          <Grid lg-3 container justifyContent="center">
+          <Grid container justifyContent="center">
             <Button component="label" variant="outlined" onClick={onTriggerDemo}>
               <Build />
               <Typography sx={{ textTransform: "none" }}>
@@ -81,6 +81,11 @@ function App() {
               </Typography>
             </Button>
             <Chatbar />
+            { areFilesUploadedSignal.value.status === Status.RUNNING || promptProcessingSignal.value.status === Status.RUNNING ?
+            <Box sx={{ display: 'flex' }}>
+              <CircularProgress />
+            </Box> :
+            null }
           </Grid>
           </Toolbar>
         </AppBar>

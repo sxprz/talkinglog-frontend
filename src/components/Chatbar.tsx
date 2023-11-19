@@ -45,6 +45,7 @@ const onSend = (event: React.KeyboardEvent<HTMLInputElement>) => {
                     if (response !== "waiting") {
                         promptProcessingSignal.value = { status: Status.SUCCESS, additionalInfo: "" };
                         conversationSignal.value.unshift({ side: ConversationSide.AI, message: response });
+                        console.log(conversationSignal.value)
                         clearInterval(interval);
                     }
                 }, err => {
