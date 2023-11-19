@@ -1,5 +1,5 @@
 import rusLogo from '../assets/rus-logo.svg';
-import { ConversationSide, RawUploadStatus, conversationSignal, currentSessionIdSignal, darkModeSignal, sidebarSignal, uploadedFilesSignal } from '../App';
+import { Status, currentSessionIdSignal, darkModeSignal, sidebarSignal, areFilesUploadedSignal } from '../App';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Sidebar } from './Sidebar';
 import { Button, IconButton, Typography, AppBar, Toolbar } from '@mui/material';
@@ -13,55 +13,31 @@ export default function Bar() {
         sidebarSignal.value = true;
     };
 
+    const uploadUrl = `https://immortal-up-weevil.ngrok-free.app/upload`;
+
     const onUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.currentTarget.files;
         console.log(files);
         const filesFormdata = new FormData();
         Array.from(files ?? []).forEach(file => filesFormdata.append("logfile", file));
         
-        uploadedFilesSignal.value = { status: RawUploadStatus.UPLOADING, additionalInfo: "" };
-        console.log("Uploading...");
+        areFilesUploadedSignal.value = { status: Status.UPLOADING, additionalInfo: "" };
 
         axios({
-            url: `https://2150-2a09-80c0-192-0-815a-fe17-49cd-206c.ngrok-free.app//upload`,
+            url: uploadUrl,
+            withCredentials: false, 
             method: `POST`,
-            data: filesFormdata
+            data: filesFormdata,
         }).then(res => {
-
-            currentSessionIdSignal.value = res.data;
-            // Continue to listen to server every 5 seconds as it reduces the number of available connections from the server
-            console.log("Uploading... (from inside the async method)");
-            uploadedFilesSignal.value = { status: RawUploadStatus.UPLOADING, additionalInfo: "" };
-            
-            const checkFormdata = new FormData();
-            checkFormdata.append("session", currentSessionIdSignal.value);
-
-            const interval = setInterval(() => {
-
-                console.log('Listening to server changes');
-                axios({
-                    url: `https://2150-2a09-80c0-192-0-815a-fe17-49cd-206c.ngrok-free.app/upload`,
-                    method: `POST`,
-                    data: checkFormdata
-                }).then(res => {
-                    const prompts : string = res.data;
-                    if (prompts !== "waiting") {
-                        uploadedFilesSignal.value = { status: RawUploadStatus.SUCCESS, additionalInfo: "" };
-                        conversationSignal.value.unshift({ side: ConversationSide.AI, message: prompts });
-                        clearInterval(interval);
-                        console.log("Upload success, added prompt to current session memory!");
-                    }
-
-                }, err => {
-                    uploadedFilesSignal.value = { status: RawUploadStatus.FAILURE, additionalInfo: err };
-                    console.log("Upload failed!");
-                });
-
-            }, 5000);
-
+            const data = res.data;
+            if (data !== null) {
+                areFilesUploadedSignal.value = { status: Status.SUCCESS, additionalInfo: "" };
+            } else {
+                areFilesUploadedSignal.value = { status: Status.FAILURE, additionalInfo: "Upload failed: No further information" };
+            }
+            currentSessionIdSignal.value = data;
         }, err => {
-            uploadedFilesSignal.value = { status: RawUploadStatus.FAILURE, additionalInfo: err };
-            console.log("Upload failed!");
+            areFilesUploadedSignal.value = { status: Status.FAILURE, additionalInfo: err };
         });
     };
     
@@ -73,7 +49,7 @@ export default function Bar() {
                 </IconButton>
                 <img src={rusLogo} className="logo rus align-left" alt="RuS logo" style={{ height: "68px", width: "auto", padding: "5pt 1.75em" }}/>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    {uploadedFilesSignal.value.status == RawUploadStatus.SUCCESS ?
+                    {areFilesUploadedSignal.value.status == Status.SUCCESS ?
                         (<Stack
                             direction="row"
                             spacing={2}
