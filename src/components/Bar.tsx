@@ -36,11 +36,11 @@ export default function Bar() {
             const checkFormdata = new FormData();
             checkFormdata.append("session", currentSessionIdSignal.value);
 
-            setInterval(() => {
+            const interval = setInterval(() => {
 
                 console.log('Listening to server changes');
                 axios({
-                    url: `https://2150-2a09-80c0-192-0-815a-fe17-49cd-206c.ngrok-free.app//upload`,
+                    url: `https://2150-2a09-80c0-192-0-815a-fe17-49cd-206c.ngrok-free.app/upload`,
                     method: `POST`,
                     data: checkFormdata
                 }).then(res => {
@@ -48,6 +48,7 @@ export default function Bar() {
                     if (prompts !== "waiting") {
                         uploadedFilesSignal.value = { status: RawUploadStatus.SUCCESS, additionalInfo: "" };
                         conversationSignal.value.unshift({ side: ConversationSide.AI, message: prompts });
+                        clearInterval(interval);
                         console.log("Upload success, added prompt to current session memory!");
                     }
 
