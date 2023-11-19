@@ -1,4 +1,4 @@
-import { signal } from '@preact/signals-react'
+import { Signal, signal } from '@preact/signals-react'
 import './App.css'
 import { Content } from './views/Content';
 import { Box, Stack } from '@mui/system';
