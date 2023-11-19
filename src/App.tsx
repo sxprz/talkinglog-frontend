@@ -36,11 +36,14 @@ export const currentSessionIdSignal = signal("");
 export const conversationSignal = signal([]) as unknown as Signal<[ConversationPart]>;
 export const promptTextSignal = signal("");
 export const promptProcessingSignal = signal({ status: Status.IDLE, additionalInfo: "" });
+export const chatHistoryStoreSignal = signal([] as unknown as [string]);
+export const historyProcessingSignal = signal({ status: Status.IDLE, additionalInfo: "" });
 export const darkModeSignal = signal(false);
 
 function App() {
 
-  const demoUrl = `https://immortal-up-weevil.ngrok-free.app/demo`; 
+  const baseUrl = `https://immortal-up-weevil.ngrok-free.app`;
+  const demoUrl = baseUrl + `/demo`; 
 
   const onTriggerDemo = () => {
     areFilesUploadedSignal.value = { status: Status.RUNNING, additionalInfo: "" };
@@ -69,7 +72,7 @@ function App() {
       <Content />
       <AppBar position="sticky" elevation={0} sx={{ backgroundColor: "transparent" }}>
         <Toolbar>
-        <Grid container justifyContent="center">
+        <Grid lg-3 container justifyContent="center">
           <Button component="label" variant="outlined" onClick={onTriggerDemo}>
             <Build />
             <Typography sx={{ textTransform: "none" }}>

@@ -13,7 +13,8 @@ export default function Bar() {
         sidebarSignal.value = true;
     };
 
-    const uploadUrl = `https://immortal-up-weevil.ngrok-free.app/upload`;
+    const baseUrl = `https://immortal-up-weevil.ngrok-free.app`;
+    const uploadUrl = baseUrl + `/upload`;
 
     const onUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.currentTarget.files;
