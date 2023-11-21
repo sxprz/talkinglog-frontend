@@ -42,7 +42,7 @@ export default function Bar() {
     };
     
     return (
-        <AppBar sx={{ backgroundColor: "#0F194C" , overflow: 'hidden'}}>
+        <AppBar style={{ backgroundColor: "#0F194C" , overflow: 'hidden'}}>
             <Toolbar>
                 <IconButton aria-label="menu" sx={{ p: '10px' }} onClick={onClick}>
                     <MenuIcon htmlColor="#FFFFFF"/>
@@ -68,7 +68,7 @@ export default function Bar() {
                         <Button component="label" variant="outlined">
                             <input hidden accept="*" type="file" onChange={(e) => onUpload(e)} />
                             <FileUpload />
-                            <Typography sx={{ textTransform: "none" }}>
+                            <Typography style={{ textTransform: "none" }}>
                                 Upload
                             </Typography>
                         </Button>

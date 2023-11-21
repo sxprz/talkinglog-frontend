@@ -1,7 +1,7 @@
-import { Signal, signal } from '@preact/signals-react'
+import { signal } from '@preact/signals-react'
 import './App.css'
 import { Content } from './views/Content';
-import { Box, Stack } from '@mui/system';
+import { Stack } from '@mui/system';
 import Bar from './components/Bar';
 import { AppBar, Button, CircularProgress, Grid, Toolbar, Typography } from '@mui/material';
 import Chatbar from './components/Chatbar';
@@ -33,7 +33,7 @@ export type ConversationPart = {
 export const sidebarSignal = signal(false);
 export const areFilesUploadedSignal = signal<ProgressStatus>({ status: Status.IDLE, additionalInfo: "" });
 export const currentSessionIdSignal = signal("");
-export const conversationSignal = signal<ConversationPart[]>([]);
+export const conversationSignal = signal<ConversationPart[]>([{ side: ConversationSide.AI, message: "How can I help you today?"}, { side: ConversationSide.USER, message: "Help me find how many errors there are in the logs, please!"}]);
 export const promptTextSignal = signal("");
 export const promptProcessingSignal = signal<ProgressStatus>({ status: Status.IDLE, additionalInfo: "" });
 export const chatHistoryStoreSignal = signal<string[]>([]);
@@ -68,23 +68,23 @@ function App() {
 
   return (
     <div>
-      <Stack spacing={5} width="100vw" sx={{ alignContent: "center" }}>
+      <Stack spacing={5} width="100vw" style={{ alignContent: "center" }}>
         <Bar />
         <Content />
-        <AppBar position="sticky" elevation={0} sx={{ backgroundColor: "transparent" }}>
+        <AppBar position="sticky" elevation={0} style={{ backgroundColor: "transparent" }}>
           <Toolbar>
           <Grid container justifyContent="center">
             <Button component="label" variant="outlined" onClick={onTriggerDemo}>
               <Build />
-              <Typography sx={{ textTransform: "none" }}>
+              <Typography style={{ textTransform: "none" }}>
                   Use Demo Data
               </Typography>
             </Button>
             <Chatbar />
             { areFilesUploadedSignal.value.status === Status.RUNNING || promptProcessingSignal.value.status === Status.RUNNING ?
-            <Box sx={{ display: 'flex' }}>
+            <div style={{ display: 'flex', margin: '3em' }}>
               <CircularProgress />
-            </Box> :
+            </div> :
             null }
           </Grid>
           </Toolbar>
