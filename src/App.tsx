@@ -96,28 +96,28 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <div>
-                <Stack spacing={5} width="100vw" style={{alignContent: "center"}}>
-                    <Bar/>
-                    <Content/>
-                    <AppBar position="sticky" elevation={0} style={{backgroundColor: "transparent"}}>
-                        <Toolbar>
-                            <Grid container justifyContent="space-evenly">
-                                <Button component="label" variant="outlined" onClick={onTriggerDemo}>
-                                    <Build/>
-                                    <Typography style={{textTransform: "none"}}>
-                                        Use Demo Data
-                                    </Typography>
-                                </Button>
-                                <Chatbar/>
-                                <Fade in={showSpinner}>
-                                    <CircularProgress style={{alignSelf: "center"}} size={30}/>
-                                </Fade>
-                            </Grid>
-                        </Toolbar>
-                    </AppBar>
-                </Stack>
-            </div>
+            <Bar/>
+
+            <Stack spacing={5} width="100vw" style={{alignContent: "center", justifyContent: "center", alignItems: "center"}}>
+                <Content/>
+                <AppBar position="sticky" elevation={0} style={{backgroundColor: "transparent"}}>
+                    <Toolbar>
+                        <Grid container justifyContent="space-evenly">
+                            <Button component="label" variant="outlined" onClick={onTriggerDemo}>
+                                <Build/>
+                                <Typography style={{textTransform: "none"}}>
+                                    Use Demo Data
+                                </Typography>
+                            </Button>
+                            <Chatbar/>
+                            <Fade in={showSpinner}>
+                                <CircularProgress style={{alignSelf: "center"}} size={30}/>
+                            </Fade>
+                        </Grid>
+                    </Toolbar>
+                </AppBar>
+            </Stack>
+
         </ThemeProvider>
     );
 }
