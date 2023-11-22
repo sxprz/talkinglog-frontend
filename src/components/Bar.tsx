@@ -44,7 +44,7 @@ export default function Bar() {
     return (
         <AppBar style={{ backgroundColor: "#0F194C" , overflow: 'hidden'}}>
             <Toolbar>
-                <IconButton aria-label="menu" sx={{ p: '10px' }} onClick={onClick}>
+                <IconButton aria-label="menu" style={{ padding: '10px' }} onClick={onClick}>
                     <MenuIcon htmlColor="#FFFFFF"/>
                 </IconButton>
                 <img src={rusLogo} className="logo rus align-left" alt="RuS logo" style={{ height: "68px", width: "auto", padding: "5pt 1.75em" }}/>
@@ -53,7 +53,7 @@ export default function Bar() {
                         (<Stack
                             direction="row"
                             spacing={2}
-                            sx={{ display: 'flex', justifyContent: 'center', padding: '10px' }}
+                            style={{ display: 'flex', justifyContent: 'center', padding: '10px' }}
                             justifyContent="flex-start">
                                 <Typography noWrap>
                                     Chat

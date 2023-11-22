@@ -36,13 +36,19 @@ export const Content = () => {
 
     return (
         <Stack direction="column"
-                alignItems="center"
-                alignContent="center"
+                alignSelf="center"
                 justifyContent="flex-end"
-                width="75%"
+                width="70%"
                 spacing={5}>
             {conversationSignal.value.map(item => {
-                return (<Item>{(item.side === ConversationSide.AI ? "AI: " : "User: ") + item.message}</Item>);
+                return (
+                    <Item>
+                        <div style={{ justifyContent: "center", alignItems: "flex-start", display: "flex" }}>
+                            {(item.side === ConversationSide.AI ? "AI: " : "User: ")}{ }
+                            {item.message}
+                        </div>
+                    </Item>
+                );
             })}
         </Stack>
     );

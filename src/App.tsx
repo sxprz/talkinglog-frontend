@@ -3,7 +3,7 @@ import './App.css'
 import { Content } from './views/Content';
 import { Stack } from '@mui/system';
 import Bar from './components/Bar';
-import { AppBar, Button, CircularProgress, Grid, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, CircularProgress, Fade, Grid, Toolbar, Typography } from '@mui/material';
 import Chatbar from './components/Chatbar';
 import { Build } from '@mui/icons-material';
 import axios from 'axios';
@@ -66,6 +66,8 @@ function App() {
 
   };
 
+  const showSpinner = (areFilesUploadedSignal.value.status === Status.RUNNING || promptProcessingSignal.value.status === Status.RUNNING);
+
   return (
     <div>
       <Stack spacing={5} width="100vw" style={{ alignContent: "center" }}>
@@ -73,7 +75,7 @@ function App() {
         <Content />
         <AppBar position="sticky" elevation={0} style={{ backgroundColor: "transparent" }}>
           <Toolbar>
-          <Grid container justifyContent="center">
+          <Grid container justifyContent="space-evenly">
             <Button component="label" variant="outlined" onClick={onTriggerDemo}>
               <Build />
               <Typography style={{ textTransform: "none" }}>
@@ -81,11 +83,9 @@ function App() {
               </Typography>
             </Button>
             <Chatbar />
-            { areFilesUploadedSignal.value.status === Status.RUNNING || promptProcessingSignal.value.status === Status.RUNNING ?
-            <div style={{ display: 'flex', margin: '3em' }}>
-              <CircularProgress />
-            </div> :
-            null }
+            <Fade in={showSpinner}>
+              <CircularProgress style={{ alignSelf: "center" }} size={30} />
+            </Fade>
           </Grid>
           </Toolbar>
         </AppBar>
