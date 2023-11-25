@@ -4,14 +4,12 @@ import {Content} from './views/Content';
 import {Stack} from '@mui/system';
 import Bar from './components/Bar';
 import {
-    AppBar,
     Button,
     CircularProgress,
     createTheme,
     CssBaseline,
     Fade,
     Grid, ThemeProvider,
-    Toolbar,
     Typography
 } from '@mui/material';
 import Chatbar from './components/Chatbar';
@@ -98,26 +96,25 @@ function App() {
             <CssBaseline/>
             <Bar/>
 
-            <Stack spacing={5} width="100vw" style={{alignContent: "center", justifyContent: "center", alignItems: "center"}}>
+            <Stack spacing={5}
+                   width="100vw"
+                   height="100vh"
+                   style={{alignContent: "center", justifyContent: "center"}}>
                 <Content/>
-                <AppBar position="sticky" elevation={0} style={{backgroundColor: "transparent"}}>
-                    <Toolbar>
-                        <Grid container justifyContent="space-evenly">
-                            <Button component="label" variant="outlined" onClick={onTriggerDemo}>
-                                <Build/>
-                                <Typography style={{textTransform: "none"}}>
-                                    Use Demo Data
-                                </Typography>
-                            </Button>
-                            <Chatbar/>
-                            <Fade in={showSpinner}>
-                                <CircularProgress style={{alignSelf: "center"}} size={30}/>
-                            </Fade>
-                        </Grid>
-                    </Toolbar>
-                </AppBar>
+                <div style={{position:"sticky", backgroundColor: "transparent"}}>
+                    <Grid container justifyContent="space-evenly">
+                        <Button component="label" variant="outlined" onClick={onTriggerDemo} startIcon={<Build/>}>
+                            <Typography style={{textTransform: "none"}}>
+                                Use Demo Data
+                            </Typography>
+                        </Button>
+                        <Chatbar/>
+                        <Fade in={showSpinner}>
+                            <CircularProgress style={{alignSelf: "center"}} size={30}/>
+                        </Fade>
+                    </Grid>
+                </div>
             </Stack>
-
         </ThemeProvider>
     );
 }
