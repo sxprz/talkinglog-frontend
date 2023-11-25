@@ -19,7 +19,7 @@ const onSend = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
         promptProcessingSignal.value = { status: Status.RUNNING, additionalInfo: "" };
 
-        // Listen to server for results every 5 seconds as it reduces the number of available connections from the server after sending the input
+        // Listen to server for results every 4 seconds as it reduces the number of available connections from the server after sending the input
         const promptFormdata = new FormData();
         const checkFormdata = new FormData();
         const sessionId = currentSessionIdSignal.value;
@@ -53,7 +53,7 @@ const onSend = (event: React.KeyboardEvent<HTMLInputElement>) => {
                     clearInterval(interval);
                 });
     
-            }, 5000);
+            }, 4000);
 
         }, err => {
             promptProcessingSignal.value = { status: Status.FAILURE, additionalInfo: err };
@@ -65,7 +65,7 @@ const onSend = (event: React.KeyboardEvent<HTMLInputElement>) => {
  
 
 export default function Chatbar() {
-  return <Input onKeyDownCapture={onSend} disabled={areFilesUploadedSignal.value.status !== Status.SUCCESS} style={{ alignSelf: "center" }} aria-label="Demo input" placeholder="Upload file(s) to start talking with your log files..." />;
+  return <Input onKeyDownCapture={onSend} disabled={areFilesUploadedSignal.value.status !== Status.SUCCESS} style={{ alignSelf: "center", textAlignLast: "center" }} aria-label="Demo input" placeholder="Upload file(s) to start talking with your log files here..." />;
 }
 
 const blue = {
