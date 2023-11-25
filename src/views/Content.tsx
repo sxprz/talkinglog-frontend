@@ -39,15 +39,26 @@ export const Content = () => {
                alignSelf="center"
                justifyContent="flex-end"
                width="70%"
+               height="75%"
                spacing={5}>
             {conversationSignal.value.map(item => {
                 const message = item.message;
+                let chatOrientation;
+                let conversationSide;
+
+                if (item.side === ConversationSide.AI) {
+                    conversationSide = "AI:";
+                    chatOrientation = "flex-start";
+                } else {
+                    conversationSide = "User: ";
+                    chatOrientation = "flex-end";
+                }
 
                 return (
-                    <Item key={message}>
+                    <Item key={message} style={{width: "80%", alignSelf: chatOrientation}}>
                         <Typography component="div"
                                     style={{justifyContent: "center", alignItems: "flex-start", display: "flex"}}>
-                            {(item.side === ConversationSide.AI ? "AI: " : "User: ")}{}
+                            {conversationSide}<br />
                             {message}
                         </Typography>
                     </Item>
